@@ -1,0 +1,73 @@
+    1  aptitude
+    2  sudo apt install aptitude
+    3  aptitude
+    4  locate php
+    5  cat /etc/apparmor.d/abstractions/php5
+    6  php
+    7  php5
+    8  cd /etc/apache2
+    9  Nginx
+   10  service nginx status
+   11  if ! which nginx > /dev/null 2>&1; then     echo "Nginx not installed"; fi
+   12  ! test -x /usr/sbin/nginx && echo "Nginx not installed"
+   13  which nginx
+   14  which mysql
+   15  sudo apt-get update
+   16  sudo apt-get install mysql-server
+   17  which mysql
+   18  which php
+   19  php
+   20  sudo apt install php5
+   21  sudo apt install php7.0-cli
+   22  php
+   23  which php
+   24  sudo reboot
+   25  which php
+   26  history
+   27  if ! which nginx > /dev/null 2>&1; then     echo "Nginx not installed"; fi
+   28  if ! which php > /dev/null 2>&1; then     echo "Nginx not installed"; fi
+   29  which php > /dev/null 2>&1
+   30  which nginx > /dev/null 2>&1
+   31  which nginx 2>&1
+   32  which nginx > 2>&1
+   33  which nginx
+   34  if ! which nginx > /dev/null 2>&1
+   35  if ! which nginx > /dev/null 2>&1; echo 'hi';  exit
+   36  if ! which nginx > /dev/null 2>&1; echo 'hi';  then echo "hai"; ;
+   37  if ! which nginx > /dev/null 2>&1; echo 'hi'; then echo "hai"; fi
+   38  which nginx nginx
+   39  ! which nginx
+   40  which nginx
+   41  which nginx 2>&1
+   42  man which
+   43  apt-cache policy php
+   44  which php
+   45  php -v
+   46  locate php
+   47  rpm -qa | grep -i php
+   48  man rpm
+   49  sudo apt install rpm
+   50  man rpm
+   51  rpm -qa | grep -i php
+   52  yum info php
+   53  dpkg --list | grep php
+   54  php --version
+   55  php5 --version
+   56  man php
+   57  nginx -v
+   58  which php
+   59  php -v
+   60  history
+   61  apt-get update
+   62  sudo apt-get update
+   63  sudo apt-get upgrade
+   64  sudo apt-get install php7.2
+   65  apt-get install python-software-properties
+   66  sudo apt-get install python-software-properties
+   67  add-apt-repository ppa:ondrej/php
+   68  sudo add-apt-repository ppa:ondrej/php
+   69  su
+   70  sudo so
+   71  sudo su
+   72  touch history_1.txt
+   73  history > history_1.txt 

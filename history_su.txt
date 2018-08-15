@@ -1,0 +1,30 @@
+    1  apt-get update
+    2  apt-get install php7.2
+    3  php -v
+    4  php -v | grep 7.2
+    5  php -v | grep 7.3
+    6  if ! php -v | grep 7.2; > then; echo "heyyyyyyyyyyyyyyyyyyy"; fi
+    7  [if ! php -v | grep 7.2]; > then; echo "heyyyyyyyyyyyyyyyyyyy"; fi
+    8  if [! php -v | grep 7.2]; > then; echo "heyyyyyyyyyyyyyyyyyyy"; fi
+    9  if [php -v | grep 7.2 > 1>&2]; > then; echo "heyyyyyyyyyyyyyyyyyyy"; fi
+   10  history
+   11  if [php -v | grep 7.2 > /dev/null 2>&1]; > then; echo "heyyyyyyyyyyyyyyyyyyy"; fi
+   12  if [php -v | grep 7.2 > /dev/null 2>&1]; then; echo "heyyyyyyyyyyyyyyyyyyy"; fi;
+   13  if [php -v | grep 7.2 > /dev/null 2>&1] then; echo "heyyyyyyyyyyyyyyyyyyy"; fi;
+   14  if ! php -v | grep 7.2 > /dev/null 2>&1 then; echo "heyyyyyyyyyyyyyyyyyyy"; fi;
+   15  if ! php -v | grep 7.2 > /dev/null 2>&1 then; echo "heyyyyyyyyyyyyyyyyyyy" fi;
+   16  if ! php -v | grep 7.2 > /dev/null 2>&1 then; echo "heyyyyyyyyyyyyyyyyyyy" fi
+   17  if ! php -v | grep 7.2 > /dev/null 2>&1 then echo "heyyyyyyyyyyyyyyyyyyy" fi
+   18  if ! php -v | grep 7.2 > /dev/null 2>&1 then echo "heyyyyyyyyyyyyyyyyyyy"; fi
+   19  if ! php -v | grep 7.2 > /dev/null 2>&1 then echo "heyyyyyyyyyyyyyyyyyyy"; fi;
+   20  if ! php -v | grep 7.2 > /dev/null 2>&1; then echo "heyyyyyyyyyyyyyyyyyyy"; fi
+   21  if php -v | grep 7.2 > /dev/null 2>&1; then echo "heyyyyyyyyyyyyyyyyyyy"; fi
+   22  if ! php -v | grep 7.3 > /dev/null 2>&1; then echo "heyyyyyyyyyyyyyyyyyyy"; fi
+   23  if php -v | grep 7.2 > /dev/null 2>&1; then echo "heyyyyyyyyyyyyyyyyyyy"; fi
+   24  history | touch history.txt
+   25  cat history.txt 
+   26  history >> touch history.txt
+   27  history > touch history.txt
+   28  touch history.txt
+   29  vim history.txt
+   30  history > history.txt
