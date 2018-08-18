@@ -23,7 +23,7 @@ function infoBlue(){
 }
 
 function createDB(){
-mysql -u root -p$MYSQL_ROOT_PASSWORD <<EOF
+sudo mysql -u root -p$MYSQL_ROOT_PASSWORD <<EOF
 SET GLOBAL validate_password_length = 6;
 SET GLOBAL validate_password_number_count = 0;
 SET GLOBAL validate_password_special_char_count = 0;
