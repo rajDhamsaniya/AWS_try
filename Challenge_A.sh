@@ -5,21 +5,21 @@ BLUE='\033[1;34m'
 
 function okayGreen()
 {
-    echo -e "${GREEN}-----> $1"
+    echo -e "${GREEN}-----> $1";
 }
 
 function acceptableYellow()
 {
-    echo -e "${YELLOW}-----> $1"
+    echo -e "${YELLOW}-----> $1";
 }
 
 function worstRed()
 {
-    echo -e "${RED}-----> $1"
+    echo -e "${RED}-----> $1";
 }
 
 function infoBlue(){
-    echo -e "${BLUE}-----> $1"
+    echo -e "${BLUE}-----> $1";
 }
 
 function createDB(){
@@ -29,7 +29,7 @@ sudo mysql -u root -p$MYSQL_ROOT_PASSWORD << EOF
 # SET GLOBAL validate_password_number_count = 0;
 # SET GLOBAL validate_password_special_char_count = 0;
 # SET GLOBAL validate_password_number_count = 0;
-# CREATE USER '$WP_DB_USERNAME'@'localhost' IDENTIFIED BY '$WP_DB_PASSWORD';
+CREATE USER '$WP_DB_USERNAME'@'localhost' IDENTIFIED BY '$WP_DB_PASSWORD';
 CREATE DATABASE $WP_DB_NAME_a;
 GRANT ALL ON $WP_DB_NAME_a.* TO $WP_DB_USERNAME@'localhost';
 FLUSH PRIVILEGES;
@@ -62,7 +62,7 @@ EOF
 }
 
 function installPackages(){
-sudo apt install php7.2-fpm php7.2-common php7.2-mbstring php7.2-xmlrpc php7.2-soap php7.2-gd php7.2-xml php7.2-intl php7.2-mysql php7.2-cli php7.2-zip php7.2-curl
+sudo apt install -y php7.2-fpm php7.2-common php7.2-mbstring php7.2-xmlrpc php7.2-soap php7.2-gd php7.2-xml php7.2-intl php7.2-mysql php7.2-cli php7.2-zip php7.2-curl
 
 sudo systemctl restart nginx.service
 sudo systemctl restart php7.2-fpm.service
@@ -79,12 +79,6 @@ sudo add-apt-repository -sy ppa:ondrej/nginx-mainline
 sudo apt update
 
 infoBlue "PHP is successfully installed"
-
-# infoBlue "Installing Nginx"
-# sudo apt update
-# sudo apt install nginx
-
-# okayGreen "Nginx is successfully installed"
 
 infoBlue "Installing MySql"
 sudo apt update
@@ -155,8 +149,8 @@ createDB
 #Task 7 : Create a wp-config.php with proper DB configuration
 mv wp-config-sample.php wp-config.php
 sed -i s/database_name_here/$WP_DB_NAME/ wp-config.php
-sed -i s/username_here/$WP_DB_USERNAME/ wp-config.php
-sed -i s/password_here/$WP_DB_PASSWORD/ wp-config.php
+sed -i s/username_here/$WP_ADMIN_USERNAME/ wp-config.php
+sed -i s/password_here/$WP_ADMIN_PASSWORD/ wp-config.php
 echo "define('FS_METHOD', 'direct');" >> wp-config.php
 
 
@@ -166,7 +160,7 @@ sudo chown -R www-data:www-data $WP_PATH/public/
 cd $WP_PATH/public/
 rm latest.tar.gz
 
-curl "http://127.0.0.1/wp-admin/install.php?step=2" \
+curl "http://$DOMAIN_NAME/wp-admin/install.php?step=2" \
 --data-urlencode "weblog_title=$DOMAIN_NAME"\
 --data-urlencode "user_name=$WP_ADMIN_USERNAME" \
 --data-urlencode "admin_email=$WP_ADMIN_EMAIL" \
