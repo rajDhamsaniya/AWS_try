@@ -1,5 +1,5 @@
-MYSQL_ROOT_PASSWORD='root'
-DOMAIN_NAME='demo.com'
+MYSQL_ROOT_PASSWORD='2010'
+DOMAIN_NAME='nf.com'
 WP_DB_USERNAME='admin'
 WP_DB_PASSWORD='admin'
 WP_ADMIN_USERNAME='admin'
@@ -20,7 +20,7 @@ function checkPHPPackages(){
 	do
 		find=$(dpkg --list | grep "${i}");
 		if [ "$find" == 0 ]
-		then 
+		then
 			sudo apt install -y "$i";
 		fi;
 	done
@@ -65,8 +65,8 @@ function addHost() {
 
 function configureDomain(){
 
-sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/$DOMAIN_NAME;
-
+#sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/$DOMAIN_NAME;
+uri='$uri';
 sudo tee /etc/nginx/sites-available/$DOMAIN_NAME <<EOF
 server {
         listen 80;
@@ -77,7 +77,7 @@ server {
         index index.php index.html index.htm index.nginx-debian.html;
         server_name $DOMAIN_NAME www.$DOMAIN_NAME;
         location / {
-                try_files $uri $uri/ =404;
+                try_files $uri ${uri}/ =404;
         }
         # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
         #
@@ -104,11 +104,11 @@ function documentRootDir(){
 function createDB(){
 WP_DB_NAME_a="\`${DOMAIN_NAME}_db\`"
 sudo mysql -u root -p$MYSQL_ROOT_PASSWORD << EOF
-# SET GLOBAL validate_password_length = 6;
-# SET GLOBAL validate_password_number_count = 0;
-# SET GLOBAL validate_password_special_char_count = 0;
-# SET GLOBAL validate_password_number_count = 0;
-CREATE USER '${WP_DB_USERNAME}'@'localhost' IDENTIFIED BY '${WP_DB_PASSWORD}';
+ SET GLOBAL validate_password_length = 4;
+ SET GLOBAL validate_password_number_count = 0;
+ SET GLOBAL validate_password_special_char_count = 0;
+ SET GLOBAL validate_password_number_count = 0;
+#CREATE USER '${WP_DB_USERNAME}'@'localhost' IDENTIFIED BY '${WP_DB_PASSWORD}';
 CREATE DATABASE ${WP_DB_NAME_a};
 GRANT ALL ON ${WP_DB_NAME_a}.* TO '${WP_DB_USERNAME}'@'localhost';
 FLUSH PRIVILEGES;
