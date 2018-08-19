@@ -23,15 +23,15 @@ function infoBlue(){
 }
 
 function createDB(){
-WP_DB_NAME_a="`${WP_DB_NAME}`"
+WP_DB_NAME_a="\`${WP_DB_NAME}\`"
 sudo mysql -u root -p$MYSQL_ROOT_PASSWORD << EOF
 # SET GLOBAL validate_password_length = 6;
 # SET GLOBAL validate_password_number_count = 0;
 # SET GLOBAL validate_password_special_char_count = 0;
 # SET GLOBAL validate_password_number_count = 0;
 # CREATE USER '$WP_DB_USERNAME'@'localhost' IDENTIFIED BY '$WP_DB_PASSWORD';
-CREATE DATABASE "$WP_DB_NAME_a";
-GRANT ALL ON "$WP_DB_NAME_a".* TO '"$WP_DB_USERNAME"'@'localhost';
+CREATE DATABASE $WP_DB_NAME_a;
+GRANT ALL ON $WP_DB_NAME_a.* TO $WP_DB_USERNAME@'localhost';
 FLUSH PRIVILEGES;
 EOF
 }
