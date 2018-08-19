@@ -29,6 +29,7 @@ sudo mysql -u root -p$MYSQL_ROOT_PASSWORD <<EOF
 # SET GLOBAL validate_password_special_char_count = 0;
 # SET GLOBAL validate_password_number_count = 0;
 CREATE USER '$WP_DB_USERNAME'@'localhost' IDENTIFIED BY '$WP_DB_PASSWORD';
+FLUSH PRIVILEGES;
 CREATE DATABASE `$WP_DB_NAME`;
 GRANT ALL ON `$WP_DB_NAME`.* TO '$WP_DB_USERNAME'@'localhost';
 EOF
@@ -126,7 +127,9 @@ sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/$DOMAIN_NA
 sudo mkdir -p $WP_PATH/public $WP_PATH/logs
 createConfig
 sudo ln -s /etc/nginx/sites-available/$DOMAIN_NAME /etc/nginx/sites-enabled/
-sudo rm /etc/nginx/sites-available/default
+sudo nginx -t
+sudo service nginx restart
+#sudo rm /etc/nginx/sites-available/default
 #test configuration
 
 
@@ -169,7 +172,7 @@ curl "http://$DOMAIN_NAME/wp-admin/install.php?step=2" \
 --data-urlencode "admin_password=$WP_ADMIN_PASSWORD" \
 --data-urlencode "admin_password2=$WP_ADMIN_PASSWORD" \
 --data-urlencode "pw_weak=1"
-sudo nginx -t
+#sudo nginx -t
 sudo service nginx restart
 
 okayGreen "200 OK : Web Server setup is completed"
