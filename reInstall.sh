@@ -2,6 +2,9 @@ MYSQL_ROOT_PASSWORD='root'
 DOMAIN_NAME='try.com'
 WP_DB_USERNAME='admin'
 WP_DB_PASSWORD='admin'
+WP_ADMIN_USERNAME='admin'
+WP_ADMIN_EMAIL='rajdhamsaniya77@gmail.com'
+WP_ADMIN_PASSWORD='admin'
 
 
 # WordPress Documentation: https://codex.wordpress.org/Installing_WordPress
@@ -41,7 +44,6 @@ function installMySql(){
 
 # A github repo code: https://gist.github.com/irazasyed/a7b0a079e7727a4315b9
 function addHost() {
-    DOMAIN_NAME=$1
     IP="127.0.0.1"
     HOSTS_LINE="$IP\t$DOMAIN_NAME"
     ETC_HOSTS='/etc/hosts'
@@ -106,16 +108,17 @@ sudo mysql -u root -p$MYSQL_ROOT_PASSWORD << EOF
 # SET GLOBAL validate_password_number_count = 0;
 # SET GLOBAL validate_password_special_char_count = 0;
 # SET GLOBAL validate_password_number_count = 0;
-CREATE USER '${WP_DB_USERNAME}'@'localhost' IDENTIFIED BY '${WP_DB_PASSWORD}';
-CREATE DATABASE '${WP_DB_NAME_a}';
-GRANT ALL ON '${WP_DB_NAME_a}'.* TO '${WP_DB_USERNAME}'@'localhost';
+# CREATE USER '${WP_DB_USERNAME}'@'localhost' IDENTIFIED BY '${WP_DB_PASSWORD}';
+CREATE DATABASE ${WP_DB_NAME_a};
+GRANT ALL ON ${WP_DB_NAME_a}.* TO '${WP_DB_USERNAME}'@'localhost';
 FLUSH PRIVILEGES;
 EOF
 }
 
 function configDB(){
 	sudo cp /var/www/html/${DOMAIN_NAME}/wp-config-sample.php /var/www/html/${DOMAIN_NAME}/wp-config.php;
-	sed -i s/database_name_here/$DOMAIN_NAME/ wp-config.php;
+	cd /var/www/html/${DOMAIN_NAME}
+	sed -i s/database_name_here/${DOMAIN_NAME}_db/ wp-config.php;
 	sed -i s/username_here/$WP_DB_USERNAME/ wp-config.php;
 	sed -i s/password_here/$WP_DB_PASSWORD/ wp-config.php;
 }
@@ -168,4 +171,15 @@ sudo chmod -R 755 /var/www/html
 
 sudo nginx -t
 sudo systemctl restart nginx
+
+curl "http://$DOMAIN_NAME/wp-admin/install.php?step=2" \
+--data-urlencode "weblog_title=$DOMAIN_NAME"\
+--data-urlencode "user_name=$WP_ADMIN_USERNAME" \
+--data-urlencode "admin_email=$WP_ADMIN_EMAIL" \
+--data-urlencode "admin_password=$WP_ADMIN_PASSWORD" \
+--data-urlencode "admin_password2=$WP_ADMIN_PASSWORD" \
+--data-urlencode "pw_weak=1"
+#sudo nginx -t
+
+echo "For visit the website go to http://$DOMAIN_NAME"
 
