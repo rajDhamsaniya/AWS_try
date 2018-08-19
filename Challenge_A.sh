@@ -104,9 +104,10 @@ infoBlue "MySql is successfully installed"
 
 infoBlue "Enter the Domain name of website : "
 read DOMAIN_NAME
-WP_DB_NAME="{$DOMAIN_NAME}_db"
+WP_DB_NAME="${DOMAIN_NAME}_db"
 infoBlue "Enter WordPress Admin UserID : "
 read WP_ADMIN_USERNAME
+WP_DB_USERNAME="${WP_ADMIN_USERNAME}"
 infoBlue "Enter WordPress Admin EmailId : "
 read WP_ADMIN_EMAIL
 infoBlue "Enter WordPress Admin Password : "
