@@ -72,8 +72,8 @@ sudo systemctl restart php7.2-fpm.service
 infoBlue "Installing PHP"
 
 sudo apt-get install software-properties-common
-sudo add-apt-repository ppa:ondrej/php
-sudo add-apt-repository ppa:ondrej/nginx-mainline
+sudo add-apt-repository -y ppa:ondrej/php
+sudo add-apt-repository -y ppa:ondrej/nginx-mainline
 sudo apt update
 
 infoBlue "PHP is successfully installed"
@@ -125,6 +125,7 @@ sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/$DOMAIN_NA
 sudo mkdir -p $WP_PATH/public $WP_PATH/logs
 createConfig
 sudo ln -s /etc/nginx/sites-available/$DOMAIN_NAME /etc/nginx/sites-enabled/
+sudo rm /etc/nginx/sites-available/default
 #test configuration
 sudo nginx -t
 
