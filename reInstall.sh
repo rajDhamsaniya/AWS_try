@@ -123,6 +123,17 @@ function configDB(){
 	sed -i s/password_here/$WP_DB_PASSWORD/ wp-config.php;
 }
 
+function configWebsite(){
+curl "http://$DOMAIN_NAME/wp-admin/install.php?step=2" \
+--data-urlencode "weblog_title=$DOMAIN_NAME"\
+--data-urlencode "user_name=$WP_ADMIN_USERNAME" \
+--data-urlencode "admin_email=$WP_ADMIN_EMAIL" \
+--data-urlencode "admin_password=$WP_ADMIN_PASSWORD" \
+--data-urlencode "admin_password2=$WP_ADMIN_PASSWORD" \
+--data-urlencode "pw_weak=1"
+}
+
+
 
 
 ###################################################################################################################
@@ -172,14 +183,8 @@ sudo chmod -R 755 /var/www/html
 sudo nginx -t
 sudo systemctl restart nginx
 
-curl "http://$DOMAIN_NAME/wp-admin/install.php?step=2" \
---data-urlencode "weblog_title=$DOMAIN_NAME"\
---data-urlencode "user_name=$WP_ADMIN_USERNAME" \
---data-urlencode "admin_email=$WP_ADMIN_EMAIL" \
---data-urlencode "admin_password=$WP_ADMIN_PASSWORD" \
---data-urlencode "admin_password2=$WP_ADMIN_PASSWORD" \
---data-urlencode "pw_weak=1"
-#sudo nginx -t
+configWebsite
+
 
 echo "For visit the website go to http://$DOMAIN_NAME"
 
