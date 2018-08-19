@@ -28,10 +28,10 @@ sudo mysql -u root -p$MYSQL_ROOT_PASSWORD <<EOF
 # SET GLOBAL validate_password_number_count = 0;
 # SET GLOBAL validate_password_special_char_count = 0;
 # SET GLOBAL validate_password_number_count = 0;
-CREATE USER '$WP_DB_USERNAME'@'localhost' IDENTIFIED BY '$WP_DB_PASSWORD';
-FLUSH PRIVILEGES;
+#CREATE USER '$WP_DB_USERNAME'@'localhost' IDENTIFIED BY '$WP_DB_PASSWORD';
 CREATE DATABASE `$WP_DB_NAME`;
 GRANT ALL ON `$WP_DB_NAME`.* TO '$WP_DB_USERNAME'@'localhost';
+FLUSH PRIVILEGES;
 EOF
 }
 
