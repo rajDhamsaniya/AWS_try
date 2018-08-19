@@ -1,5 +1,5 @@
-MYSQL_ROOT_PASSWORD='2010'
-DOMAIN_NAME='nf.com'
+MYSQL_ROOT_PASSWORD='root'
+DOMAIN_NAME='energetic.com'
 WP_DB_USERNAME='admin'
 WP_DB_PASSWORD='admin'
 WP_ADMIN_USERNAME='admin'
@@ -96,18 +96,18 @@ sudo ln -s /etc/nginx/sites-available/$DOMAIN_NAME /etc/nginx/sites-enabled/;
 function documentRootDir(){
 	sudo mkdir -p /var/www/html/$DOMAIN_NAME;
 	cd /tmp/ && wget http://wordpress.org/latest.tar.gz;
-	tar -xzvf latest.tar.gz --strip-components=1;
-	sudo cp -R wordpress/* /var/www/html/$DOMAIN_NAME;
+	tar -xf latest.tar.gz --strip-components=1;
+	sudo cp -R ./* /var/www/html/$DOMAIN_NAME;
 }
 
 
 function createDB(){
 WP_DB_NAME_a="\`${DOMAIN_NAME}_db\`"
 sudo mysql -u root -p$MYSQL_ROOT_PASSWORD << EOF
- SET GLOBAL validate_password_length = 4;
- SET GLOBAL validate_password_number_count = 0;
- SET GLOBAL validate_password_special_char_count = 0;
- SET GLOBAL validate_password_number_count = 0;
+# SET GLOBAL validate_password_length = 4;
+# SET GLOBAL validate_password_number_count = 0;
+# SET GLOBAL validate_password_special_char_count = 0;
+# SET GLOBAL validate_password_number_count = 0;
 #CREATE USER '${WP_DB_USERNAME}'@'localhost' IDENTIFIED BY '${WP_DB_PASSWORD}';
 CREATE DATABASE ${WP_DB_NAME_a};
 GRANT ALL ON ${WP_DB_NAME_a}.* TO '${WP_DB_USERNAME}'@'localhost';
@@ -189,7 +189,7 @@ sudo chmod -R 755 /var/www/html
 sudo nginx -t
 sudo systemctl restart nginx
 
-#configWebsite
+configWebsite
 
 sudo service nginx restart
 echo "For visit the website go to http://$DOMAIN_NAME"
