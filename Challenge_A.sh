@@ -72,8 +72,8 @@ sudo systemctl restart php7.2-fpm.service
 infoBlue "Installing PHP"
 
 sudo apt-get install software-properties-common
-sudo add-apt-repository -ys ppa:ondrej/php
-sudo add-apt-repository -ys ppa:ondrej/nginx-mainline
+sudo add-apt-repository -sy ppa:ondrej/php
+sudo add-apt-repository -sy ppa:ondrej/nginx-mainline
 sudo apt update
 
 infoBlue "PHP is successfully installed"
@@ -104,7 +104,7 @@ infoBlue "MySql is successfully installed"
 
 infoBlue "Enter the Domain name of website : "
 read DOMAIN_NAME
-WP_DB_NAME = "{$DOMAIN_NAME}_db"
+WP_DB_NAME="{$DOMAIN_NAME}_db"
 infoBlue "Enter WordPress Admin UserID : "
 read WP_ADMIN_USERNAME
 infoBlue "Enter WordPress Admin EmailId : "
