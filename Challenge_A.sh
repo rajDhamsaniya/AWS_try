@@ -154,7 +154,7 @@ createDB
 ############################################################
 #Task 7 : Create a wp-config.php with proper DB configuration
 mv wp-config-sample.php wp-config.php
-sed -i s/database_name_here/$DOMAIN_NAME/ wp-config.php
+sed -i s/database_name_here/$WP_DB_NAME/ wp-config.php
 sed -i s/username_here/$WP_DB_USERNAME/ wp-config.php
 sed -i s/password_here/$WP_DB_PASSWORD/ wp-config.php
 echo "define('FS_METHOD', 'direct');" >> wp-config.php
@@ -166,7 +166,7 @@ sudo chown -R www-data:www-data $WP_PATH/public/
 cd $WP_PATH/public/
 rm latest.tar.gz
 
-curl "http://$DOMAIN_NAME/wp-admin/install.php?step=2" \
+curl "http://127.0.0.1/wp-admin/install.php?step=2" \
 --data-urlencode "weblog_title=$DOMAIN_NAME"\
 --data-urlencode "user_name=$WP_ADMIN_USERNAME" \
 --data-urlencode "admin_email=$WP_ADMIN_EMAIL" \
