@@ -1,5 +1,3 @@
-
-DOMAIN_NAME='antarctic.com'
 WP_DB_USERNAME='root'
 
 echo 'Please, provide a domain name: '
@@ -204,4 +202,10 @@ echo "after that you can go to http://$DOMAIN_NAME happily."
 
 
 #References:
-#
+# manual pages of all the shell codes
+# https://www.digitalocean.com/ - different of links from this site
+# https://websiteforstudents.com/setup-nginx-server-blocks-multiple-wordpress-blogs/ - Easy for first time user
+# https://codex.wordpress.org/ - Documentation
+# https://stackoverflow.com/ - For troubleshooting purpose
+# https://gist.github.com/irazasyed/a7b0a079e7727a4315b9 - a function is used from it
+# And some miscellaneous.
