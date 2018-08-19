@@ -1,4 +1,8 @@
 MYSQL_ROOT_PASSWORD='root'
+DOMAIN_NAME='try.com'
+WP_DB_USERNAME='admin'
+WP_DB_PASSWORD='admin'
+
 
 # WordPress Documentation: https://codex.wordpress.org/Installing_WordPress
 function installPHP(){
@@ -38,7 +42,9 @@ function installMySql(){
 # A github repo code: https://gist.github.com/irazasyed/a7b0a079e7727a4315b9
 function addHost() {
     DOMAIN_NAME=$1
+    IP="127.0.0.1"
     HOSTS_LINE="$IP\t$DOMAIN_NAME"
+    ETC_HOSTS='/etc/hosts'
     if [ -n "$(grep $DOMAIN_NAME /etc/hosts)" ]
         then
             echo "$DOMAIN_NAME already exists : $(grep $DOMAIN_NAME $ETC_HOSTS)"
@@ -53,6 +59,65 @@ function addHost() {
                     echo "Failed to Add $DOMAIN_NAME, Try again!";
             fi
     fi
+}
+
+function configureDomain(){
+
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/$DOMAIN_NAME;
+
+sudo tee /etc/nginx/sites-available/$DOMAIN_NAME <<EOF
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/html/$DOMAIN_NAME;
+        # Add index.php to the list if you are using PHP
+        index index.php index.html index.htm index.nginx-debian.html;
+        server_name $DOMAIN_NAME www.$DOMAIN_NAME;
+        location / {
+                try_files $uri $uri/ =404;
+        }
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        #
+        location ~ \.php$ {
+                include snippets/fastcgi-php.conf;
+
+                fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+        }
+}
+EOF
+
+sudo ln -s /etc/nginx/sites-available/$DOMAIN_NAME /etc/nginx/sites-enabled/;
+}
+
+
+function documentRootDir(){
+	sudo mkdir -p /var/www/html/$DOMAIN_NAME;
+	cd /tmp/ && wget http://wordpress.org/latest.tar.gz;
+	tar -xzvf latest.tar.gz;
+	sudo cp -R wordpress/* /var/www/html/$DOMAIN_NAME;
+}
+
+
+function createDB(){
+WP_DB_NAME_a="\`${DOMAIN_NAME}_db\`"
+sudo mysql -u root -p$MYSQL_ROOT_PASSWORD << EOF
+# SET GLOBAL validate_password_length = 6;
+# SET GLOBAL validate_password_number_count = 0;
+# SET GLOBAL validate_password_special_char_count = 0;
+# SET GLOBAL validate_password_number_count = 0;
+CREATE USER '${WP_DB_USERNAME}'@'localhost' IDENTIFIED BY '${WP_DB_PASSWORD}';
+CREATE DATABASE '${WP_DB_NAME_a}';
+GRANT ALL ON '${WP_DB_NAME_a}'.* TO '${WP_DB_USERNAME}'@'localhost';
+FLUSH PRIVILEGES;
+EOF
+}
+
+function configDB(){
+	sudo cp /var/www/html/${DOMAIN_NAME}/wp-config-sample.php /var/www/html/${DOMAIN_NAME}/wp-config.php;
+	sed -i s/database_name_here/$DOMAIN_NAME/ wp-config.php;
+	sed -i s/username_here/$WP_DB_USERNAME/ wp-config.php;
+	sed -i s/password_here/$WP_DB_PASSWORD/ wp-config.php;
 }
 
 
@@ -90,6 +155,17 @@ sudo systemctl restart php7.2-fpm.service
 
 addHost
 
+configureDomain
 
+documentRootDir
 
+createDB
+
+configDB
+
+sudo chown -R www-data:www-data /var/www/html
+sudo chmod -R 755 /var/www/html
+
+sudo nginx -t
+sudo systemctl restart nginx
 
