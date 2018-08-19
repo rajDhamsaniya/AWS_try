@@ -1,10 +1,14 @@
-MYSQL_ROOT_PASSWORD='root'
-DOMAIN_NAME='energetic.com'
-WP_DB_USERNAME='admin'
-WP_DB_PASSWORD='admin'
-WP_ADMIN_USERNAME='admin'
-WP_ADMIN_EMAIL='rajdhamsaniya77@gmail.com'
-WP_ADMIN_PASSWORD='admin'
+
+DOMAIN_NAME='antarctic.com'
+WP_DB_USERNAME='root'
+
+echo 'Please, provide a domain name: '
+read DOMAIN_NAME;
+echo 'Provide Password for MySql root(If not installed it will take it as root): '
+read -s MYSQL_ROOT_PASSWORD;
+WP_DB_PASSWORD=$MYSQL_ROOT_PASSWORD
+WP_DB_USERNAME='root'
+
 
 
 # WordPress Documentation: https://codex.wordpress.org/Installing_WordPress
@@ -36,6 +40,8 @@ function installNginx(){
 
 # WordPress Documentation: https://codex.wordpress.org/Installing_WordPress
 function installMySql(){
+	MYSQL_ROOT_PASSWORD='root';
+	WP_DB_PASSWORD='${MYSQL_ROOT_PASSWORD}';
 	echo "mysql-server-5.7 mysql-server/root_password password $MYSQL_ROOT_PASSWORD" | sudo debconf-set-selections
 	echo "mysql-server-5.7 mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD" | sudo debconf-set-selections
 	sudo apt install -y mysql-server
@@ -96,19 +102,20 @@ sudo ln -s /etc/nginx/sites-available/$DOMAIN_NAME /etc/nginx/sites-enabled/;
 function documentRootDir(){
 	sudo mkdir -p /var/www/html/$DOMAIN_NAME;
 	cd /tmp/ && wget http://wordpress.org/latest.tar.gz;
-	tar -xf latest.tar.gz --strip-components=1;
+	tar -zxf latest.tar.gz --strip-components=1;
 	sudo cp -R ./* /var/www/html/$DOMAIN_NAME;
 }
 
 
 function createDB(){
 WP_DB_NAME_a="\`${DOMAIN_NAME}_db\`"
+
 sudo mysql -u root -p$MYSQL_ROOT_PASSWORD << EOF
 # SET GLOBAL validate_password_length = 4;
 # SET GLOBAL validate_password_number_count = 0;
 # SET GLOBAL validate_password_special_char_count = 0;
 # SET GLOBAL validate_password_number_count = 0;
-#CREATE USER '${WP_DB_USERNAME}'@'localhost' IDENTIFIED BY '${WP_DB_PASSWORD}';
+# CREATE USER '${WP_DB_USERNAME}'@'localhost' IDENTIFIED BY '${WP_DB_PASSWORD}';
 CREATE DATABASE ${WP_DB_NAME_a};
 GRANT ALL ON ${WP_DB_NAME_a}.* TO '${WP_DB_USERNAME}'@'localhost';
 FLUSH PRIVILEGES;
@@ -124,13 +131,13 @@ function configDB(){
 }
 
 function configWebsite(){
-curl "http://$DOMAIN_NAME/wp-admin/install.php?step=2" \
+curl "http://$DOMAIN_NAME/wp-admin/install.php?step=1" \
 --data-urlencode "weblog_title=$DOMAIN_NAME"\
 --data-urlencode "user_name=$WP_ADMIN_USERNAME" \
 --data-urlencode "admin_email=$WP_ADMIN_EMAIL" \
---data-urlencode "admin_password=$WP_ADMIN_PASSWORD" \
---data-urlencode "admin_password2=$WP_ADMIN_PASSWORD" \
---data-urlencode "pw_weak=1"
+--data-urlencode "pass1-text=$WP_ADMIN_PASSWORD" \
+--data-urlencode "pw_weak=1" \
+--data-urlencode "blog_public=0"
 
 curl "http://$DOMAIN_NAME/wp-login.php" \
 --data-urlencode "user_login=$WP_ADMIN_USERNAME" \
@@ -189,8 +196,12 @@ sudo chmod -R 755 /var/www/html
 sudo nginx -t
 sudo systemctl restart nginx
 
-configWebsite
+#configWebsite
 
 sudo service nginx restart
-echo "For visit the website go to http://$DOMAIN_NAME"
+echo "Complete the installation with providing user info at http://$DOMAIN_NAME/wp-admin/install.php"
+echo "after that you can go to http://$DOMAIN_NAME happily."
 
+
+#References:
+#
