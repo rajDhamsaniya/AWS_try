@@ -29,9 +29,9 @@ sudo mysql -u root -p$MYSQL_ROOT_PASSWORD << EOF
 # SET GLOBAL validate_password_number_count = 0;
 # SET GLOBAL validate_password_special_char_count = 0;
 # SET GLOBAL validate_password_number_count = 0;
-CREATE USER '$WP_DB_USERNAME'@'localhost' IDENTIFIED BY '$WP_DB_PASSWORD';
-CREATE DATABASE $WP_DB_NAME_a;
-GRANT ALL ON $WP_DB_NAME_a.* TO $WP_DB_USERNAME@'localhost';
+CREATE USER '${WP_DB_USERNAME}'@'localhost' IDENTIFIED BY '${WP_DB_PASSWORD}';
+CREATE DATABASE '${WP_DB_NAME_a}';
+GRANT ALL ON '${WP_DB_NAME_a}'.* TO '${WP_DB_USERNAME}'@'localhost';
 FLUSH PRIVILEGES;
 EOF
 }
@@ -160,13 +160,13 @@ sudo chown -R www-data:www-data $WP_PATH/public/
 cd $WP_PATH/public/
 rm latest.tar.gz
 
-curl "http://$DOMAIN_NAME/wp-admin/install.php?step=2" \
---data-urlencode "weblog_title=$DOMAIN_NAME"\
---data-urlencode "user_name=$WP_ADMIN_USERNAME" \
---data-urlencode "admin_email=$WP_ADMIN_EMAIL" \
---data-urlencode "admin_password=$WP_ADMIN_PASSWORD" \
---data-urlencode "admin_password2=$WP_ADMIN_PASSWORD" \
---data-urlencode "pw_weak=1"
+#curl "http://$DOMAIN_NAME/wp-admin/install.php?step=2" \
+#--data-urlencode "weblog_title=$DOMAIN_NAME"\
+#--data-urlencode "user_name=$WP_ADMIN_USERNAME" \
+#--data-urlencode "admin_email=$WP_ADMIN_EMAIL" \
+#--data-urlencode "admin_password=$WP_ADMIN_PASSWORD" \
+#--data-urlencode "admin_password2=$WP_ADMIN_PASSWORD" \
+#--data-urlencode "pw_weak=1"
 #sudo nginx -t
 sudo service nginx restart
 
