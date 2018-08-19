@@ -1,5 +1,5 @@
 MYSQL_ROOT_PASSWORD='root'
-DOMAIN_NAME='try.com'
+DOMAIN_NAME='test.com'
 WP_DB_USERNAME='admin'
 WP_DB_PASSWORD='admin'
 WP_ADMIN_USERNAME='admin'
