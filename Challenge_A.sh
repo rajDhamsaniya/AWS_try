@@ -72,8 +72,8 @@ sudo systemctl restart php7.2-fpm.service
 infoBlue "Installing PHP"
 
 sudo apt-get install software-properties-common
-sudo add-apt-repository -y ppa:ondrej/php
-sudo add-apt-repository -y ppa:ondrej/nginx-mainline
+sudo add-apt-repository -ys ppa:ondrej/php
+sudo add-apt-repository -ys ppa:ondrej/nginx-mainline
 sudo apt update
 
 infoBlue "PHP is successfully installed"
@@ -127,7 +127,7 @@ createConfig
 sudo ln -s /etc/nginx/sites-available/$DOMAIN_NAME /etc/nginx/sites-enabled/
 sudo rm /etc/nginx/sites-available/default
 #test configuration
-sudo nginx -t
+
 
 
 ############################################################
@@ -168,7 +168,7 @@ curl "http://$DOMAIN_NAME/wp-admin/install.php?step=2" \
 --data-urlencode "admin_password=$WP_ADMIN_PASSWORD" \
 --data-urlencode "admin_password2=$WP_ADMIN_PASSWORD" \
 --data-urlencode "pw_weak=1"
-
+sudo nginx -t
 sudo service nginx restart
 
 okayGreen "200 OK : Web Server setup is completed"
