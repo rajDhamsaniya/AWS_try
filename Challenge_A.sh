@@ -29,7 +29,7 @@ sudo mysql -u root -p$MYSQL_ROOT_PASSWORD <<EOF
 # SET GLOBAL validate_password_special_char_count = 0;
 # SET GLOBAL validate_password_number_count = 0;
 CREATE USER '$WP_DB_USERNAME'@'localhost' IDENTIFIED BY '$WP_DB_PASSWORD';
-CREATE DATABASE `$DOMAIN_NAME`;
+CREATE DATABASE `$WP_DB_NAME`;
 GRANT ALL ON `$WP_DB_NAME`.* TO '$WP_DB_USERNAME'@'localhost';
 EOF
 }
@@ -104,6 +104,7 @@ infoBlue "MySql is successfully installed"
 
 infoBlue "Enter the Domain name of website : "
 read DOMAIN_NAME
+WP_DB_NAME = "{$DOMAIN_NAME}_db"
 infoBlue "Enter WordPress Admin UserID : "
 read WP_ADMIN_USERNAME
 infoBlue "Enter WordPress Admin EmailId : "
