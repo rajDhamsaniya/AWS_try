@@ -1,5 +1,5 @@
 MYSQL_ROOT_PASSWORD='root'
-DOMAIN_NAME='test.com'
+DOMAIN_NAME='example.com'
 WP_DB_USERNAME='admin'
 WP_DB_PASSWORD='admin'
 WP_ADMIN_USERNAME='admin'
@@ -96,7 +96,7 @@ sudo ln -s /etc/nginx/sites-available/$DOMAIN_NAME /etc/nginx/sites-enabled/;
 function documentRootDir(){
 	sudo mkdir -p /var/www/html/$DOMAIN_NAME;
 	cd /tmp/ && wget http://wordpress.org/latest.tar.gz;
-	tar -xzvf latest.tar.gz;
+	tar -xzvf latest.tar.gz --strip-components=1;
 	sudo cp -R wordpress/* /var/www/html/$DOMAIN_NAME;
 }
 
@@ -131,6 +131,12 @@ curl "http://$DOMAIN_NAME/wp-admin/install.php?step=2" \
 --data-urlencode "admin_password=$WP_ADMIN_PASSWORD" \
 --data-urlencode "admin_password2=$WP_ADMIN_PASSWORD" \
 --data-urlencode "pw_weak=1"
+
+curl "http://$DOMAIN_NAME/wp-login.php" \
+--data-urlencode "user_login=$WP_ADMIN_USERNAME" \
+--data-urlencode "admin_pass=$WP_ADMIN_PASSWORD" \
+--data-urlencode "rememberme=1"
+
 }
 
 
@@ -185,6 +191,6 @@ sudo systemctl restart nginx
 
 configWebsite
 
-
+sudo service nginx restart
 echo "For visit the website go to http://$DOMAIN_NAME"
 
