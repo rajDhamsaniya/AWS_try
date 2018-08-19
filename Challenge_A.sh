@@ -5,29 +5,29 @@ BLUE='\033[1;34m'
 
 function okayGreen()
 {
-    echo -e "${GREEN}-----> $*"
+    echo -e "${GREEN}-----> $1"
 }
 
 function acceptableYellow()
 {
-    echo -e "${YELLOW}-----> $*"
+    echo -e "${YELLOW}-----> $1"
 }
 
 function worstRed()
 {
-    echo -e "${RED}-----> $*"
+    echo -e "${RED}-----> $1"
 }
 
 function infoBlue(){
-    echo -e "${BLUE}-----> $*"
+    echo -e "${BLUE}-----> $1"
 }
 
 function createDB(){
 sudo mysql -u root -p$MYSQL_ROOT_PASSWORD <<EOF
-SET GLOBAL validate_password_length = 6;
-SET GLOBAL validate_password_number_count = 0;
-SET GLOBAL validate_password_special_char_count = 0;
-SET GLOBAL validate_password_number_count = 0;
+# SET GLOBAL validate_password_length = 6;
+# SET GLOBAL validate_password_number_count = 0;
+# SET GLOBAL validate_password_special_char_count = 0;
+# SET GLOBAL validate_password_number_count = 0;
 CREATE USER '$WP_DB_USERNAME'@'localhost' IDENTIFIED BY '$WP_DB_PASSWORD';
 CREATE DATABASE `$DOMAIN_NAME`;
 GRANT ALL ON `$WP_DB_NAME`.* TO '$WP_DB_USERNAME'@'localhost';
@@ -87,7 +87,8 @@ infoBlue "PHP is successfully installed"
 infoBlue "Installing MySql"
 sudo apt update
 
-MYSQL_ROOT_PASSWORD="root"
+MYSQL_ROOT_PASSWORD='root'
+
 echo "mysql-server-5.7 mysql-server/root_password password $MYSQL_ROOT_PASSWORD" | sudo debconf-set-selections
 echo "mysql-server-5.7 mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD" | sudo debconf-set-selections
 
